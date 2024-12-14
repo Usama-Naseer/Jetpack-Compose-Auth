@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.auth.jet
 
 import LoginScreen
 import UserListScreen
@@ -39,7 +39,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.*
 import coil3.compose.AsyncImage
-import com.example.myapplication.ui.theme.MyApplicationTheme
+import com.auth.jet.ui.theme.MyApplicationTheme
 
 import kotlinx.coroutines.launch
 
@@ -81,7 +81,6 @@ fun FullScaffoldExample(navController: NavHostController) {
 
     // Coroutine scope to show the snackbar
     val scope = rememberCoroutineScope()
-    val context = LocalContext.current
     Scaffold(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         topBar = {

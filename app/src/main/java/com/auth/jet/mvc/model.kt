@@ -1,4 +1,4 @@
-package com.example.myapplication.mvc
+package com.auth.jet.mvc
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel

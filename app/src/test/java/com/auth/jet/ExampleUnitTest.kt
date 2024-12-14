@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.auth.jet
 
 import org.junit.Test
 

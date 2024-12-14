@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.auth.jet
 
 
 import android.widget.GridLayout
@@ -29,7 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.myapplication.ui.theme.MyApplicationTheme
+import com.auth.jet.ui.theme.MyApplicationTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
