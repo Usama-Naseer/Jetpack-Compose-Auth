@@ -1,52 +1,43 @@
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.AbsoluteCutCornerShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.rounded.Phone
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import com.auth.jet.ui.theme.Pink40
-import com.auth.jet.ui.theme.Purple40
-import com.example.myapplication.R
+import com.auth.jet.R
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 
 @Composable
 fun LoginScreen(){
     val email = remember { mutableStateOf("") }
     val pass=remember { mutableStateOf("") }
+    val coroutineScope = rememberCoroutineScope() // Create a coroutine scope
+
+
 
     Column(
         modifier = Modifier
@@ -86,7 +77,18 @@ fun LoginScreen(){
 
         )
         ElevatedButton(
-            onClick = {},
+            onClick = {
+                println("dslksd");
+
+                coroutineScope.launch {
+                    try {
+                        val result = signInWithEmailAndPasswordAwait(email.value, pass.value)
+                        println("Login successful! User: ${result.user?.email}")
+                    } catch (e: Exception) {
+                        println("Login failed: ${e.message}")
+                    }
+                }
+            },
         ) {
             Text(modifier = Modifier, text = "Login", color = MaterialTheme.colorScheme.primary)
         }
@@ -117,4 +119,21 @@ fun DrawableImageExample() {
         contentDescription = "Example Image",
         contentScale = ContentScale.Fit // Adjust scaling as needed
     )
+}
+suspend fun signInWithEmailAndPasswordAwait(
+    email: String,
+    password: String
+): AuthResult {
+    print("dslksd");
+    return suspendCancellableCoroutine { continuation ->
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    print(task.result.user?.email);
+                    continuation.resume(task.result) // Resume coroutine with result
+                } else {
+                    continuation.resumeWithException(task.exception ?: Exception("Unknown error")) // Resume with error
+                }
+            }
+    }
 }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "205472275693",
+    "project_id": "jetcompose-auth",
+    "storage_bucket": "jetcompose-auth.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:205472275693:android:80761ff5c97775496f00e4",
+        "android_client_info": {
+          "package_name": "com.auth.jet"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEIwiqZEomjaQI9QqvJccOLXSqEst0Qtc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
