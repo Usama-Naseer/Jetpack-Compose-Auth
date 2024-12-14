@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.*
 import coil3.compose.AsyncImage
+import com.example.myapplication.ui.theme.MyApplicationTheme
 
 import kotlinx.coroutines.launch
 
@@ -48,8 +49,10 @@ class MainActivity : ComponentActivity() {
         setContent {
 
             // Set up navigation in Compose
-            LoginScreen()
+            MyApplicationTheme {
+                LoginScreen()
 
+            }
         }
     }
 }

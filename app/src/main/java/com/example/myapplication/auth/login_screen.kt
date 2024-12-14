@@ -3,6 +3,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,7 +18,9 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.rounded.Phone
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -45,8 +48,13 @@ fun LoginScreen(){
     val email = remember { mutableStateOf("") }
     val pass=remember { mutableStateOf("") }
 
-
-    Column(modifier = Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(19.dp),
+        verticalArrangement = Arrangement.spacedBy(20.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
 
         DrawableImageExample()
         OutlinedTextField(
@@ -77,9 +85,10 @@ fun LoginScreen(){
             label = { Text("Enter Password") }
 
         )
-
-        ElevatedButton(onClick = {}) {
-            Text(modifier = Modifier, text = "Login")
+        ElevatedButton(
+            onClick = {},
+        ) {
+            Text(modifier = Modifier, text = "Login", color = MaterialTheme.colorScheme.primary)
         }
 
     }
