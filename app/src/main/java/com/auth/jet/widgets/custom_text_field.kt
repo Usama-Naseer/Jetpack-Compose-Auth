@@ -8,6 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -15,7 +16,10 @@ fun CustomTextField(
     label: @Composable () -> Unit,
     onChange:  (value:String)-> Unit,
     value: String,
-){
+    prefix: @Composable () -> Unit,
+    transformation: VisualTransformation
+
+    ){
     OutlinedTextField(
         value = value,
         onValueChange = onChange,
@@ -26,5 +30,7 @@ fun CustomTextField(
             keyboardType = KeyboardType.Email
         ),
         shape =  RoundedCornerShape(20.dp),
+        prefix = prefix,
+        visualTransformation = transformation
     )
 }

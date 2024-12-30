@@ -49,7 +49,7 @@ fun SignUpScreen(navController: NavHostController) {
             contentScale = ContentScale.Fit
         )
         Text(text = "Create Account!", style = TextStyle(fontSize = TextUnit(value = 20.0F, type = TextUnitType.Sp), color = MaterialTheme.colorScheme.secondary))
-        CustomTextField(onChange = { email.value = it }, label = { Text("Enter Email") }, value = email.value )
+        CustomTextField(onChange = { email.value = it }, label = { Text("Enter Email") }, value = email.value ,)
         CustomTextField(onChange = { password.value = it }, label = { Text("Enter Password") }, value = password.value)
         CustomTextField(onChange = { reEnter.value = it }, label = { Text("Re-Enter Password") }, value = reEnter.value )
 

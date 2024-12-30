@@ -11,6 +11,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.rounded.Phone
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
@@ -29,6 +30,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.auth.jet.R
@@ -56,10 +59,11 @@ fun LoginScreen(navController: NavHostController) {
         DrawableImageExample()
         CustomTextField(onChange = {
             email.value = it;
-        }, label = { Text("Enter Email") }, value = email.value)
+        }, label = { Text("Enter Email") }, value = email.value, prefix = {Icon(Icons.Rounded.Phone, contentDescription = "Email")
+        } , transformation = VisualTransformation.None )
         CustomTextField(onChange = {
             pass.value = it;
-        }, label = { Text("Enter password") }, value = pass.value)
+        }, label = { Text("Enter password") }, value = pass.value, prefix = {Icon(Icons.Filled.Search, contentDescription = "Password")},transformation = PasswordVisualTransformation())
 
         ElevatedButton(
             onClick = {
