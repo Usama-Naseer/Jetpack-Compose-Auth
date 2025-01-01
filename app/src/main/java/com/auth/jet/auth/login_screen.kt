@@ -35,15 +35,17 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.auth.jet.R
+import com.auth.jet.auth.viewModel.AuthViewModel
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
 @Composable
-fun LoginScreen(navController: NavHostController) {
+fun LoginScreen(navController: NavHostController,authViewModel: AuthViewModel) {
     val email = remember { mutableStateOf("") }
     val pass=remember { mutableStateOf("") }
     val coroutineScope = rememberCoroutineScope() // Create a coroutine scope
@@ -68,10 +70,9 @@ fun LoginScreen(navController: NavHostController) {
         ElevatedButton(
             onClick = {
                 println("dslksd");
-
                 coroutineScope.launch {
                     try {
-                        val result = signInWithEmailAndPasswordAwait(email.value, pass.value)
+                        val result = authViewModel.signInWithEmailAndPasswordAwait(email.value, pass.value)
                         println("Login successful! User: ${result.user?.email}")
                     } catch (e: Exception) {
                         println("Login failed: ${e.message}")
@@ -125,21 +126,4 @@ fun DrawableImageExample() {
         contentDescription = "Example Image",
         contentScale = ContentScale.Fit // Adjust scaling as needed
     )
-}
-suspend fun signInWithEmailAndPasswordAwait(
-    email: String,
-    password: String
-): AuthResult {
-    print("dslksd");
-    return suspendCancellableCoroutine { continuation ->
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    print(task.result.user?.email);
-                    continuation.resume(task.result) // Resume coroutine with result
-                } else {
-                    continuation.resumeWithException(task.exception ?: Exception("Unknown error")) // Resume with error
-                }
-            }
-    }
 }

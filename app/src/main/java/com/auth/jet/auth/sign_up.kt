@@ -11,6 +11,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -24,6 +28,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
@@ -49,9 +55,9 @@ fun SignUpScreen(navController: NavHostController) {
             contentScale = ContentScale.Fit
         )
         Text(text = "Create Account!", style = TextStyle(fontSize = TextUnit(value = 20.0F, type = TextUnitType.Sp), color = MaterialTheme.colorScheme.secondary))
-        CustomTextField(onChange = { email.value = it }, label = { Text("Enter Email") }, value = email.value ,)
-        CustomTextField(onChange = { password.value = it }, label = { Text("Enter Password") }, value = password.value)
-        CustomTextField(onChange = { reEnter.value = it }, label = { Text("Re-Enter Password") }, value = reEnter.value )
+        CustomTextField(onChange = { email.value = it }, label = { Text("Enter Email") }, value = email.value , prefix  = { Icon(Icons.Default.Email, contentDescription = "Em") }, transformation = VisualTransformation.None)
+        CustomTextField(onChange = { password.value = it }, label = { Text("Enter Password") }, value = password.value, prefix = { Icon(Icons.Default.Lock, contentDescription = "pass") }, transformation = PasswordVisualTransformation())
+        CustomTextField(onChange = { reEnter.value = it }, label = { Text("Re-Enter Password") }, value = reEnter.value, prefix = { Icon(Icons.Default.Lock, contentDescription = "pass") }, transformation = PasswordVisualTransformation() )
 
 
 

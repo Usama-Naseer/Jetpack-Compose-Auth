@@ -36,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.*
 import com.auth.jet.auth.SignUpScreen
+import com.auth.jet.auth.viewModel.AuthViewModel
 import com.auth.jet.ui.theme.MyApplicationTheme
 
 import kotlinx.coroutines.launch
@@ -60,7 +61,7 @@ fun MyApp() {
 
     // Define the NavHost with the navigation graph
     NavHost(navController = navController, startDestination = "login") {
-        composable("login") { LoginScreen(navController) }
+        composable("login") { LoginScreen(navController, AuthViewModel()) }
         composable("signup") { SignUpScreen(navController) }
     }
 }
