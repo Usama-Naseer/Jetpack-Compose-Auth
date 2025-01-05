@@ -52,10 +52,10 @@ fun LoginScreen(navController: NavHostController,authViewModel: AuthViewModel) {
         CustomTextField(onChange = {
             email.value = it
         }, label = { Text("Enter Email") }, value = email.value, prefix = {Icon(Icons.Rounded.Phone, contentDescription = "Email")
-        } , transformation = VisualTransformation.None )
+        } , transformation = VisualTransformation.None , validation = Validation.Email)
         CustomTextField(onChange = {
             pass.value = it
-        }, label = { Text("Enter password") }, value = pass.value, prefix = {Icon(Icons.Filled.Search, contentDescription = "Password")},transformation = PasswordVisualTransformation())
+        }, label = { Text("Enter password") }, value = pass.value, prefix = {Icon(Icons.Filled.Search, contentDescription = "Password")},transformation = PasswordVisualTransformation(),validation = Validation.Password)
 
         ElevatedButton(
             onClick = {

@@ -1,4 +1,5 @@
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -10,9 +11,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -21,7 +24,8 @@ fun CustomTextField(
     onChange:  (value:String)-> Unit,
     value: String,
     prefix: @Composable () -> Unit,
-    transformation: VisualTransformation
+    transformation: VisualTransformation,
+    validation:Validation
 
     ){
     var errorMessage by remember { mutableStateOf<String?>(null) }
@@ -30,8 +34,31 @@ fun CustomTextField(
         value = value,
         onValueChange = {fv->
             onChange(fv)
-            if(!isValidEmail(fv)){
-                errorMessage ="Invalid Email";
+            when (validation) {
+                Validation.Email -> {
+                    if(!isValidEmail(fv)){
+                        errorMessage="Invalid email";
+                    }
+                    else{
+                        errorMessage=null;
+                    }
+                }
+                Validation.Password -> {
+                    if(!isValidPassword(fv)){
+                        errorMessage="Password must be 8 characters long";
+                    }
+                    else{
+                        errorMessage=null;
+                    }
+                }
+                Validation.NotEmpty ->  {
+                    if(!isNonEmpty(fv)){
+                        errorMessage="Field cannot be empty";
+                    }
+                    else{
+                        errorMessage=null;
+                    }
+                }
             }
         },
         label = label,
@@ -47,12 +74,13 @@ fun CustomTextField(
     if (errorMessage != null) {
         Text(
             text = errorMessage!!,
+            textAlign = TextAlign.Left,
             color = MaterialTheme.colorScheme.error,
             style = MaterialTheme.typography.bodySmall,
-            modifier = Modifier.padding(start = 16.dp, top = 4.dp)
+            modifier = Modifier.fillMaxWidth()
         )
     }
 }
-fun isValidEmail(email: String): Boolean {
-    return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
-}
+//fun isValidEmail(email: String): Boolean {
+//    return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+//}

@@ -69,10 +69,10 @@ fun SignUpScreen(navController: NavHostController,authViewModel: AuthViewModel) 
             contentScale = ContentScale.Fit
         )
         Text(text = "Create Account!", style = TextStyle(fontSize = TextUnit(value = 20.0F, type = TextUnitType.Sp), color = MaterialTheme.colorScheme.secondary))
-        CustomTextField(onChange = { email.value = it }, label = { Text("Enter Email") }, value = email.value , prefix  = { Icon(Icons.Default.Email, contentDescription = "Em") }, transformation = VisualTransformation.None)
-        CustomTextField(onChange = { fullName.value = it }, label = { Text("Full name") }, value = fullName.value , prefix  = { Icon(Icons.Filled.Person, contentDescription = "name") }, transformation = VisualTransformation.None)
-        CustomTextField(onChange = { password.value = it }, label = { Text("Enter Password") }, value = password.value, prefix = { Icon(Icons.Default.Lock, contentDescription = "pass") }, transformation = PasswordVisualTransformation())
-        CustomTextField(onChange = { reEnter.value = it }, label = { Text("Re-Enter Password") }, value = reEnter.value, prefix = { Icon(Icons.Default.Lock, contentDescription = "pass") }, transformation = PasswordVisualTransformation() )
+        CustomTextField(onChange = { email.value = it }, label = { Text("Enter Email") }, value = email.value , prefix  = { Icon(Icons.Default.Email, contentDescription = "Em") }, transformation = VisualTransformation.None,validation = Validation.Email)
+        CustomTextField(onChange = { fullName.value = it }, label = { Text("Full name") }, value = fullName.value , prefix  = { Icon(Icons.Filled.Person, contentDescription = "name") }, transformation = VisualTransformation.None,validation = Validation.NotEmpty)
+        CustomTextField(onChange = { password.value = it }, label = { Text("Enter Password") }, value = password.value, prefix = { Icon(Icons.Default.Lock, contentDescription = "pass") }, transformation = PasswordVisualTransformation(), validation  = Validation.Password)
+        CustomTextField(onChange = { reEnter.value = it }, label = { Text("Re-Enter Password") }, value = reEnter.value, prefix = { Icon(Icons.Default.Lock, contentDescription = "pass") }, transformation = PasswordVisualTransformation(),validation = Validation.Password )
         ElevatedButton(
             onClick = {
                 coroutineScope.launch {
