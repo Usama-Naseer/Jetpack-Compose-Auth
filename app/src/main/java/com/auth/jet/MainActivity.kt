@@ -62,7 +62,7 @@ fun MyApp() {
     // Define the NavHost with the navigation graph
     NavHost(navController = navController, startDestination = "login") {
         composable("login") { LoginScreen(navController, AuthViewModel()) }
-        composable("signup") { SignUpScreen(navController) }
+        composable("signup") { SignUpScreen(navController,AuthViewModel()) }
     }
 }
 

@@ -7,27 +7,22 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.rounded.Phone
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -36,20 +31,15 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.auth.jet.R
 import com.auth.jet.auth.viewModel.AuthViewModel
-import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
+
 
 @Composable
 fun LoginScreen(navController: NavHostController,authViewModel: AuthViewModel) {
     val email = remember { mutableStateOf("") }
     val pass=remember { mutableStateOf("") }
-    val coroutineScope = rememberCoroutineScope() // Create a coroutine scope
-
+    val coroutineScope = rememberCoroutineScope()
+    val snackBarHostState = remember { SnackbarHostState() }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -60,22 +50,28 @@ fun LoginScreen(navController: NavHostController,authViewModel: AuthViewModel) {
 
         DrawableImageExample()
         CustomTextField(onChange = {
-            email.value = it;
+            email.value = it
         }, label = { Text("Enter Email") }, value = email.value, prefix = {Icon(Icons.Rounded.Phone, contentDescription = "Email")
         } , transformation = VisualTransformation.None )
         CustomTextField(onChange = {
-            pass.value = it;
+            pass.value = it
         }, label = { Text("Enter password") }, value = pass.value, prefix = {Icon(Icons.Filled.Search, contentDescription = "Password")},transformation = PasswordVisualTransformation())
 
         ElevatedButton(
             onClick = {
-                println("dslksd");
                 coroutineScope.launch {
                     try {
-                        val result = authViewModel.signInWithEmailAndPasswordAwait(email.value, pass.value)
-                        println("Login successful! User: ${result.user?.email}")
+                       authViewModel.signInWithEmailAndPasswordAwait(email.value, pass.value)
+                        snackBarHostState.showSnackbar("Login Successful",
+                            actionLabel = "Dismiss", // Ensure this is a non-null String
+                            duration = SnackbarDuration.Short
+
+                        )
                     } catch (e: Exception) {
-                        println("Login failed: ${e.message}")
+                            snackBarHostState.showSnackbar("Login failed ${e.message}",
+                                    actionLabel = "retry", // Ensure this is a non-null String
+                                duration = SnackbarDuration.Short
+                            )
                     }
                 }
             },
@@ -98,26 +94,14 @@ fun LoginScreen(navController: NavHostController,authViewModel: AuthViewModel) {
             )
         }
 
+        SnackbarHost(hostState = snackBarHostState, modifier = Modifier.fillMaxWidth())
+
+
     }
 
 }
-@Composable
-fun TextFieldWithString() {
-    var text by remember { mutableStateOf("") }
 
-    OutlinedTextField(
-        value = text,
-        onValueChange = { text = it }, // onValueChange expects a String
-        label = { Text("Enter Text") },
-        modifier = Modifier.fillMaxWidth(),
-        singleLine = true,
 
-    )
-}
-
-fun isValidEmail(email: String): Boolean {
-    return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
-}
 @Composable
 fun DrawableImageExample() {
     Image(
